@@ -15,7 +15,7 @@ const Header = () => {
          <img src={Logo} className='object-contain h-10 mr-5'/>
          <div className='p-2.5 flex items-center rounded text-gray-200 bg-slate-200'>
             <SearchIcon/>
-            <input type="text" className='outline-none border-none '/>
+            <input placeholder="search" type="text" className='outline-none border-none '/>
          </div>
       </div>
 

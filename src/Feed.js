@@ -14,35 +14,39 @@ const Feed = () => {
   const [input, setInput] = useState("");
   const [posts, setPosts] = useState([]);
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const collectionRef = db.collection('posts');
+  //       const querySnapshot = await collectionRef.get();
+
+  //       const newData = querySnapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data(),
+  //       }));
+
+  //       setPosts(newData);
+  //     } catch (error) {
+  //       console.error('Error getting documents: ', error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const collectionRef = db.collection('posts');
-        const querySnapshot = await collectionRef.get();
-
-        const newData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        setPosts(newData);
-      } catch (error) {
-        console.error('Error getting documents: ', error);
-      }
+      await db.collection("posts").onSnapshot((snapshot) => {
+        setPosts(
+            snapshot.docs.map((doc) => ({
+                id: doc.id,
+                data: doc.data(),
+            }))
+        )
+      })
     };
 
     fetchData();
   }, []);
-  // useEffect(() => {
-  //   db.collection("posts").onSnapshot((snapshot) => {
-  //       setPosts(
-  //           snapshot.docs.map((doc) => ({
-  //               id: doc.id,
-  //               data: doc.data(),
-  //           }))
-  //       )
-  //   })
-  // }, [])
 
   const sendPost = e => {
     e.preventDefault();
